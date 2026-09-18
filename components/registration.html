@@ -1,0 +1,73 @@
+<!-- VIEW 1: CLOSED LINK NOTICE -->
+<div id="closedView" class="glass-card" style="display: none; text-align: center;">
+    <div style="font-size: 3rem; color: var(--accent); margin-bottom: 16px;">
+        <i class="fa-solid fa-lock"></i>
+    </div>
+    <h2 style="font-size: 1.5rem; color: #0f172a; margin-bottom: 12px;">Quiz Registration & Portal Closed</h2>
+    <p style="color: var(--text-muted); line-height: 1.6; max-width: 500px; margin: 0 auto 24px;">
+        Thank you for your overwhelming interest! The State Level E-Quiz Competition link is currently <strong>CLOSED</strong> or has concluded as per the official schedule.
+    </p>
+    <div style="background: #f8fafc; padding: 16px; border-radius: 10px; border: 1px solid #e2e8f0; font-size: 0.9rem;">
+        <i class="fa-solid fa-circle-info" style="color: var(--primary);"></i> For queries, contact G.E.S. College Of Pharmacy Examination Cell.
+    </div>
+</div>
+
+<!-- VIEW 2: REGISTRATION & TIMER HOME PAGE -->
+<div id="registrationView" class="glass-card">
+    <div class="timer-banner">
+        <div class="timer-info">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+                <div style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;" id="timerLabel">Exam Starts In</div>
+                <div style="font-size: 0.85rem; font-weight: 600;" id="scheduledTimeText">Scheduled Start: Loading...</div>
+            </div>
+        </div>
+        <div class="timer-clock" id="countdownClock">00:00:00</div>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <h2 style="font-size: 1.4rem; color: #0f172a; font-weight: 800;">Candidate Registration</h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">Please fill in your authentic details before starting the State Level E-Quiz Test.</p>
+    </div>
+
+    <form id="registrationForm" onsubmit="event.preventDefault();">
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label><i class="fa-solid fa-user"></i> Full Name Of Candidate *</label>
+                <input type="text" id="candidateName" placeholder="e.g. Rahul Ramesh Patil" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label><i class="fa-solid fa-building-columns"></i> College Name *</label>
+                <input type="text" id="collegeName" placeholder="e.g. Government Polytechnic / Pharmacy College" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-layer-group"></i> Year Of Study *</label>
+                <select id="yearOfStudy" required>
+                    <option value="">-- Select Year --</option>
+                    <option value="First Year">First Year D.Pharm</option>
+                    <option value="Second Year">Second Year D.Pharm</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-envelope"></i> Email ID *</label>
+                <input type="email" id="emailId" placeholder="rahul@gmail.com" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label><i class="fa-brands fa-whatsapp"></i> WhatsApp Phone Number *</label>
+                <input type="tel" id="whatsappNo" placeholder="10-digit Mobile Number" pattern="[0-9]{10}" required>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; background: #fff7ed; border: 1px solid #fed7aa; padding: 14px; border-radius: 10px; font-size: 0.82rem; color: #9a3412;">
+            <i class="fa-solid fa-shield-halved"></i> <strong>Proctoring Notice:</strong> Test will run in full-screen mode. Tab switching, screen exiting, and screenshots are strictly monitored by AI Surveillance.
+        </div>
+
+        <button type="button" id="startExamBtn" class="btn-primary" disabled onclick="initiateExam()">
+            <i class="fa-solid fa-play"></i> Start Exam (Locked Until Timer Hits 00:00)
+        </button>
+    </form>
+</div>
