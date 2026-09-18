@@ -1,0 +1,28 @@
+<!-- VIEW 3: LIVE MCQ EXAM INTERFACE -->
+<div id="examView" class="glass-card" style="display: none;">
+    <div class="exam-header">
+        <div>
+            <span class="question-number" id="questionCounter">Question 1 of --</span>
+            <h3 style="font-size: 0.85rem; color: var(--text-muted);" id="activeCandidateTag">Candidate: --</h3>
+        </div>
+        <div style="background: #f1f5f9; padding: 8px 16px; border-radius: 20px; font-weight: 700; color: var(--danger); font-family: 'Space Grotesk';">
+            <i class="fa-solid fa-hourglass-half"></i> <span id="testRemainingTimer">20:00</span>
+        </div>
+    </div>
+
+    <div class="question-text" id="questionText">
+        Loading question data...
+    </div>
+
+    <div class="options-list" id="optionsContainer">
+        <!-- Options rendered dynamically -->
+    </div>
+
+    <div class="nav-controls">
+        <button class="btn-secondary" id="prevBtn" onclick="navigateQuestion(-1)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+        <button class="btn-secondary" id="nextBtn" onclick="navigateQuestion(1)">Next <i class="fa-solid fa-arrow-right"></i></button>
+        <button class="btn-primary" id="submitExamBtn" style="margin-top:0; width:auto; padding: 12px 28px; background: linear-gradient(135deg, #10b981, #059669);" onclick="submitExam()">
+            <i class="fa-solid fa-paper-plane"></i> Submit Test
+        </button>
+    </div>
+</div>
