@@ -1,5 +1,5 @@
 // LIVE APPS SCRIPT WEB APP API ENDPOINTS
-const QUIZ_CONFIG_API = "https://script.google.com/macros/s/AKfycbwfTxjL-d6k-mIwidNCVRJjkMX5RCoMp6f1qmJRAmNeJZe9GimolUydh1A9EkcdAZ6X/exec";
+const QUIZ_CONFIG_API = "https://script.google.com/macros/s/AKfycby--vqW591vmM2XMunDZ5A7EDt4_Ly835x04KlEMIIaxQIGN5wP60uLQay7x_LMRUY2/exec";
 const SUBMISSION_API  = "https://script.google.com/macros/s/AKfycbwgwRGCK39qClOdQY0_xWUlWrfJrE4C4K2F8givwR74Rq7kGoECuZODedsNm6X8pnsb/exec";
 
 let quizData = [];
@@ -122,16 +122,53 @@ function initiateExam() {
         return;
     }
 
-    candidateDetails = { name, college, year, email, phone };
-    document.getElementById('activeCandidateTag').innerText = `Candidate: ${name}`;
+    const startBtn = document.getElementById('startExamBtn');
+    if (startBtn) {
+        startBtn.disabled = true;
+        startBtn.innerText = "Verifying details...";
+    }
 
-    requestFullScreen();
+    // Checking if candidate has already submitted
+    const checkUrl = `${SUBMISSION_API}?action=checkCandidate&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&college=${encodeURIComponent(college)}`;
 
-    document.getElementById('registrationView').style.display = 'none';
-    document.getElementById('examView').style.display = 'block';
+    fetch(checkUrl)
+        .then(res => res.json())
+        .then(resData => {
+            if (resData.alreadyGiven) {
+                alert("You have already submitted this test! Multiple attempts are not allowed.");
+                if (startBtn) {
+                    startBtn.disabled = false;
+                    startBtn.innerHTML = '<i class="fa-solid fa-play"></i> Start Exam Now';
+                }
+                return;
+            }
 
-    renderQuestion(0);
-    startExamTimer(examDurationMinutes * 60);
+            // Continue to start exam if not given earlier
+            candidateDetails = { name, college, year, email, phone };
+            document.getElementById('activeCandidateTag').innerText = `Candidate: ${name}`;
+
+            requestFullScreen();
+
+            document.getElementById('registrationView').style.display = 'none';
+            document.getElementById('examView').style.display = 'block';
+
+            renderQuestion(0);
+            startExamTimer(examDurationMinutes * 60);
+        })
+        .catch(err => {
+            console.error("Verification error:", err);
+            // Error आला तरी सुरक्षिततेसाठी टेस्ट सुरु करू द्यायची असल्यास:
+            candidateDetails = { name, college, year, email, phone };
+            document.getElementById('activeCandidateTag').innerText = `Candidate: ${name}`;
+
+            requestFullScreen();
+
+            document.getElementById('registrationView').style.display = 'none';
+            document.getElementById('examView').style.display = 'block';
+
+            renderQuestion(0);
+            startExamTimer(examDurationMinutes * 60);
+        });
 }
 
 function requestFullScreen() {
