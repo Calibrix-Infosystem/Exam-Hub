@@ -3,487 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G.E.S. College Of Pharmacy - Exam Portal</title>
-    <!-- Tailwind CSS for Modern UI -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* White Grid Background Style */
-        body {
-            background-color: #f8fafc;
-            background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px),
-                              linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
-            background-size: 30px 30px;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            user-select: none; /* Anti-copy */
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        }
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
-        }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col justify-between text-slate-800">
+    <title>State Level E-Quiz Competition | G.E.S. College Of Pharmacy</title>
 
-    <!-- Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <!-- Logo -->
-                <div class="w-12 h-12 rounded-full border-2 border-blue-900 overflow-hidden flex items-center justify-center bg-white shadow-inner">
-                    <img src="https://i.ibb.co/Ld1XfBq/logo.png" alt="GES Logo" class="object-contain w-10 h-10" onerror="this.src='https://img.icons8.com/color/96/graduation-cap.png'">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- External Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <div class="brand-section">
+                <div class="logo-box">
+                    <i class="fa-solid fa-graduation-cap"></i>
                 </div>
-                <div>
-                    <h1 class="text-base md:text-xl font-bold text-blue-950 leading-tight">G.E.S. College Of Pharmacy (D.Pharm)</h1>
-                    <p class="text-xs text-slate-500 font-medium">Limb, Satara - Official Examination Portal</p>
+                <div class="college-details">
+                    <h1>G.E.S. College Of Pharmacy (D.Pharm)</h1>
+                    <p><i class="fa-solid fa-location-dot"></i> Limb, Satara</p>
                 </div>
             </div>
-            <div id="statusBadge" class="hidden md:flex items-center space-x-2 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-200">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>System Online</span>
+            <div class="badge-tag">
+                <i class="fa-solid fa-bolt"></i> State Level E-Quiz
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-grow">
-
-        <!-- 1. Registration & Pre-Exam Section -->
-        <div id="registrationSection" class="glass-card rounded-2xl p-6 md:p-8">
-            <div class="border-b border-slate-100 pb-4 mb-6">
-                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded">Live Examination</span>
-                <h2 id="testTitle" class="text-xl md:text-2xl font-bold text-slate-900 mt-2">Loading Test Details...</h2>
-                <div class="flex flex-wrap gap-4 mt-3 text-xs text-slate-600">
-                    <div><i class="fa-regular fa-clock text-blue-600 mr-1"></i> Start: <span id="startTimeText" class="font-semibold">-</span></div>
-                    <div><i class="fa-solid fa-hourglass-end text-blue-600 mr-1"></i> End: <span id="endTimeText" class="font-semibold">-</span></div>
-                </div>
-            </div>
-
-            <!-- Closed Test Banner Popup (Hidden by default) -->
-            <div id="closedBanner" class="hidden mb-6 bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl text-center">
-                <i class="fa-solid fa-circle-xmark text-3xl text-red-500 mb-2"></i>
-                <h3 class="font-bold text-lg">Registration / Exam Link is Closed</h3>
-                <p class="text-sm mt-1">The examination link is no longer accepting responses. Please contact the administrator.</p>
-            </div>
-
-            <!-- Form & Timer -->
-            <form id="registrationForm" onsubmit="handleRegistration(event)" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Full Name</label>
-                        <input type="text" id="fullName" required placeholder="e.g. Rahul Ashok Shinde" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">College Name</label>
-                        <input type="text" id="collegeName" required placeholder="e.g. G.E.S. College Of Pharmacy" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Year of Study</label>
-                        <select id="yearOfStudy" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm bg-white">
-                            <option value="">Select Year</option>
-                            <option value="First Year">First Year (D.Pharm)</option>
-                            <option value="Second Year">Second Year (D.Pharm)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Email ID</label>
-                        <input type="email" id="emailId" required placeholder="student@gmail.com" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">WhatsApp Number</label>
-                        <input type="tel" id="whatsappNo" pattern="[0-9]{10}" required placeholder="10-digit mobile number" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
-                    </div>
-                </div>
-
-                <!-- Timer Section -->
-                <div class="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-xl text-center">
-                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Exam Countdown (IST)</p>
-                    <div id="countdownTimer" class="text-2xl md:text-3xl font-extrabold text-blue-900 my-1">00:00:00</div>
-                    <p id="timerMessage" class="text-xs text-amber-600 font-medium">Please complete registration. Test button will unlock when live.</p>
-                </div>
-
-                <button type="submit" id="startBtn" disabled class="w-full btn-primary text-white py-3 rounded-xl font-bold text-sm shadow-md transition-all opacity-50 cursor-not-allowed">
-                    Start Examination
-                </button>
-            </form>
-        </div>
-
-        <!-- 2. Exam Section -->
-        <div id="examSection" class="hidden glass-card rounded-2xl p-6 relative">
-            <!-- Top Controls -->
-            <div class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4">
-                <div>
-                    <span class="text-xs text-slate-500">Question Number</span>
-                    <h3 class="text-lg font-bold text-slate-800"><span id="qCurrent">1</span> of <span id="qTotal">20</span></h3>
-                </div>
-                <div class="bg-red-50 text-red-600 border border-red-200 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center">
-                    <i class="fa-solid fa-shield-halved mr-1.5"></i> Warnings: <span id="warnCount" class="ml-1 text-sm">0</span>/3
-                </div>
-            </div>
-
-            <!-- Question Box -->
-            <div class="mb-6">
-                <p id="questionText" class="text-base md:text-lg font-semibold text-slate-900 mb-4">Loading question...</p>
-                <div id="optionsContainer" class="space-y-3">
-                    <!-- Options inserted via JS -->
-                </div>
-            </div>
-
-            <!-- Navigation Buttons -->
-            <div class="flex justify-between items-center pt-4 border-t border-slate-200">
-                <button id="prevBtn" onclick="navigateQuestion(-1)" class="px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40">Previous</button>
-                <button id="nextBtn" onclick="navigateQuestion(1)" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow-sm">Next</button>
-                <button id="submitBtn" onclick="confirmSubmission()" class="hidden px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold shadow-sm">Submit Exam</button>
-            </div>
-        </div>
-
-        <!-- 3. Result & Scorecard Section -->
-        <div id="resultSection" class="hidden glass-card rounded-2xl p-8 text-center">
-            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-                <i class="fa-solid fa-award"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-slate-900">Test Submitted Successfully!</h2>
-            <p class="text-sm text-slate-500 mt-1">Thank you for appearing in the exam.</p>
-
-            <div class="my-6 p-6 bg-slate-50 border border-slate-200 rounded-2xl max-w-sm mx-auto">
-                <div class="text-xs uppercase font-bold text-slate-400">Your Score</div>
-                <div class="text-4xl font-extrabold text-blue-900 my-2"><span id="scoreMarks">0</span> / <span id="scoreTotal">0</span></div>
-                <div class="text-sm font-semibold text-slate-600">Percentage: <span id="scorePercentage">0%</span></div>
-                <div class="text-xs text-red-500 mt-2">Total Security Violations: <span id="finalViolations">0</span></div>
-            </div>
-
-            <!-- Certificate Option for 50%+ Marks -->
-            <div id="certificateBox" class="hidden bg-emerald-50 border border-emerald-200 p-5 rounded-2xl max-w-md mx-auto mb-4">
-                <h4 class="font-bold text-emerald-900 text-base">Congratulations! 🎉</h4>
-                <p class="text-xs text-emerald-700 mt-1">You scored 50% or above. Fill out the quick feedback form to instantly collect your Participation Certificate.</p>
-                <a id="certificateLink" href="https://forms.gle/your-feedback-form-link" target="_blank" class="inline-block mt-3 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-md transition-all">
-                    <i class="fa-solid fa-certificate mr-1.5"></i> Submit Feedback & Get Certificate
-                </a>
-            </div>
-        </div>
-
+    <!-- MAIN CONTAINER -->
+    <main id="main-content">
+        <!-- Components dynamic import hotiil -->
     </main>
 
-    <!-- Warning / Lock Modal -->
-    <div id="warningModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl">
-            <div id="modalIcon" class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+    <!-- PROCTORING WARNING MODAL -->
+    <div class="modal-overlay" id="warningModal">
+        <div class="modal-card">
+            <div class="warning-icon">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <h3 id="modalTitle" class="text-lg font-bold text-slate-900">Security Alert</h3>
-            <p id="modalMsg" class="text-xs text-slate-600 mt-2">Tab switching or screenshot activity detected! Please stay on full screen mode.</p>
-            <div id="punishmentTimer" class="hidden text-2xl font-extrabold text-red-600 my-3">01:00</div>
-            <button id="modalCloseBtn" onclick="closeWarningModal()" class="mt-4 px-6 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold">I Understand & Resume</button>
+            <h3 style="font-size: 1.3rem; color: #0f172a; margin-bottom: 8px;" id="warningTitle">Security Warning!</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;" id="warningMsg">
+                Don't switch tabs or exit full-screen! Our AI Surveillance system is actively supervising the exam.
+            </p>
+            <div style="background: #fef2f2; border: 1px solid #fecaca; color: var(--danger); font-size: 0.85rem; font-weight: 700; padding: 10px; border-radius: 8px; margin-bottom: 20px;">
+                Violation Count: <span id="violationCountTag">1</span> / 3
+            </div>
+            <button class="btn-primary" style="margin-top:0;" onclick="dismissWarning()">I Understand & Resume</button>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-8">
-        <p>Platform Developed by <strong class="text-slate-700">Pharma2tech Systems Pvt Ltd</strong></p>
-        <p class="italic text-slate-400 mt-0.5">"Where Pharmacy Meets Technology"</p>
+    <!-- LOCKOUT PENALTY MODAL -->
+    <div class="modal-overlay" id="penaltyModal">
+        <div class="modal-card penalty-card">
+            <div style="font-size: 3rem; color: #f43f5e;">
+                <i class="fa-solid fa-user-lock"></i>
+            </div>
+            <h3 style="font-size: 1.4rem; margin-bottom: 8px;">Exam Suspended Temporarily</h3>
+            <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                Multiple rules violations detected (>3 times tab switch / screenshot attempt). Penalty lock activated!
+            </p>
+            <div class="penalty-clock" id="penaltyClock">01:00</div>
+            <p style="font-size: 0.8rem; color: #94a3b8;">
+                Test will resume automatically when timer finishes. Do NOT close the browser.
+            </p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        State Level E-Quiz Competition &bull; <strong>G.E.S. College Of Pharmacy (D.Pharm), Limb, Satara</strong><br>
+        <span style="font-size: 0.78rem; color: #94a3b8; display: inline-block; margin-top: 4px;">
+            Made By <strong>Pharma2tech systems pvt ltd</strong>
+        </span>
     </footer>
 
+    <!-- App JavaScript Logic -->
+    <script src="js/app.js"></script>
+
+    <!-- Component Loader Script -->
     <script>
-        // Set Google Apps Script Executable URL
-        const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+        async function loadComponents() {
+            const container = document.getElementById('main-content');
+            
+            const views = [
+                'components/registration.html',
+                'components/exam.html',
+                'components/result.html'
+            ];
 
-        let currentStudent = {};
-        let examConfig = {};
-        let questions = [];
-        let userAnswers = {};
-        let currentQIndex = 0;
-        let warnings = 0;
-        let isExamActive = false;
-        let isLocked = false;
-        let lockTimerInterval = null;
-
-        // Fetch Exam Controls & Questions on load
-        window.onload = function() {
-            fetchConfig();
-            setupSurveillance();
-        };
-
-        function fetchConfig() {
-            fetch(`${SCRIPT_URL}?action=getInitData`)
-                .then(res => res.json())
-                .then(data => {
-                    examConfig = data.config;
-                    questions = data.questions;
-
-                    document.getElementById('testTitle').innerText = examConfig.testName || "Online Examination";
-                    document.getElementById('startTimeText').innerText = examConfig.startTime;
-                    document.getElementById('endTimeText').innerText = examConfig.endTime;
-
-                    if (examConfig.linkStatus.toLowerCase() === 'closed') {
-                        document.getElementById('closedBanner').classList.remove('hidden');
-                        document.getElementById('registrationForm').classList.add('opacity-50', 'pointer-events-none');
-                        document.getElementById('timerMessage').innerText = "Exam is currently disabled by Admin.";
-                        return;
-                    }
-
-                    startCountdown(examConfig.startTime, examConfig.endTime);
-                })
-                .catch(err => {
-                    alert("Error loading test data. Please refresh.");
-                });
-        }
-
-        function startCountdown(startStr, endStr) {
-            const timerElem = document.getElementById('countdownTimer');
-            const startBtn = document.getElementById('startBtn');
-            const msgElem = document.getElementById('timerMessage');
-
-            const interval = setInterval(() => {
-                const now = new Date().getTime();
-                const startTime = new Date(startStr).getTime();
-                const endTime = new Date(endStr).getTime();
-
-                if (now < startTime) {
-                    const diff = startTime - now;
-                    timerElem.innerText = formatTime(diff);
-                    msgElem.innerText = "Exam will start soon. Fill details and wait.";
-                    startBtn.disabled = true;
-                    startBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                } else if (now >= startTime && now <= endTime) {
-                    timerElem.innerText = "EXAM IS LIVE!";
-                    timerElem.classList.remove('text-blue-900');
-                    timerElem.classList.add('text-emerald-600');
-                    msgElem.innerText = "You can start the exam now.";
-                    startBtn.disabled = false;
-                    startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                } else {
-                    clearInterval(interval);
-                    timerElem.innerText = "EXAM EXPIRED";
-                    msgElem.innerText = "The scheduled time for this exam has ended.";
-                    startBtn.disabled = true;
-                }
-            }, 1000);
-        }
-
-        function formatTime(ms) {
-            let sec = Math.floor(ms / 1000) % 60;
-            let min = Math.floor(ms / (1000 * 60)) % 60;
-            let hrs = Math.floor(ms / (1000 * 60 * 60));
-            return `${hrs.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-        }
-
-        function handleRegistration(e) {
-            e.preventDefault();
-            currentStudent = {
-                fullName: document.getElementById('fullName').value,
-                collegeName: document.getElementById('collegeName').value,
-                yearOfStudy: document.getElementById('yearOfStudy').value,
-                emailId: document.getElementById('emailId').value,
-                whatsappNo: document.getElementById('whatsappNo').value
-            };
-
-            // Enter Fullscreen
-            enterFullscreen();
-
-            // Load Exam Section
-            document.getElementById('registrationSection').classList.add('hidden');
-            document.getElementById('examSection').classList.remove('hidden');
-            isExamActive = true;
-
-            renderQuestion();
-        }
-
-        function enterFullscreen() {
-            let elem = document.documentElement;
-            if (elem.requestFullscreen) { elem.requestFullscreen(); }
-            else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
-        }
-
-        function exitFullscreen() {
-            if (document.exitFullscreen) { document.exitFullscreen(); }
-            else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-        }
-
-        function renderQuestion() {
-            let q = questions[currentQIndex];
-            document.getElementById('qCurrent').innerText = currentQIndex + 1;
-            document.getElementById('qTotal').innerText = questions.length;
-            document.getElementById('questionText').innerText = `${currentQIndex + 1}. ${q.question}`;
-
-            let optContainer = document.getElementById('optionsContainer');
-            optContainer.innerHTML = '';
-
-            ['A', 'B', 'C', 'D'].forEach(optKey => {
-                let optVal = q['option' + optKey];
-                let isChecked = userAnswers[currentQIndex] === optKey ? 'checked' : '';
-                
-                let optDiv = document.createElement('label');
-                optDiv.className = `flex items-center p-3.5 border rounded-xl cursor-pointer transition-all hover:bg-slate-50 ${isChecked ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200'}`;
-                optDiv.innerHTML = `
-                    <input type="radio" name="option" value="${optKey}" ${isChecked} onchange="selectAnswer('${optKey}')" class="w-4 h-4 text-blue-600 border-slate-300 focus:ring-blue-500">
-                    <span class="ml-3 text-sm font-medium text-slate-700"><strong>${optKey}.</strong> ${optVal}</span>
-                `;
-                optContainer.appendChild(optDiv);
-            });
-
-            // Button controls
-            document.getElementById('prevBtn').disabled = currentQIndex === 0;
-            if (currentQIndex === questions.length - 1) {
-                document.getElementById('nextBtn').classList.add('hidden');
-                document.getElementById('submitBtn').classList.remove('hidden');
-            } else {
-                document.getElementById('nextBtn').classList.remove('hidden');
-                document.getElementById('submitBtn').classList.add('hidden');
+            for (const view of views) {
+                const res = await fetch(view);
+                const html = await res.text();
+                container.insertAdjacentHTML('beforeend', html);
             }
+
+            // Sagle components load zalyanantar app initialize kara
+            initApp();
         }
 
-        function selectAnswer(ans) {
-            userAnswers[currentQIndex] = ans;
-        }
-
-        function navigateQuestion(direction) {
-            currentQIndex += direction;
-            renderQuestion();
-        }
-
-        // --- Security & AI Surveillance Logic ---
-        function setupSurveillance() {
-            // Tab switch detection
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden && isExamActive && !isLocked) {
-                    triggerWarning("Tab switching detected!");
-                }
-            });
-
-            // Fullscreen exit detection
-            document.addEventListener('fullscreenchange', () => {
-                if (!document.fullscreenElement && isExamActive && !isLocked) {
-                    triggerWarning("You exited full-screen mode!");
-                }
-            });
-
-            // Screenshot Hotkey Block
-            document.addEventListener('keyup', (e) => {
-                if (isExamActive && (e.key === 'PrintScreen' || e.keyCode === 44)) {
-                    navigator.clipboard.writeText('');
-                    triggerWarning("Screenshot attempt detected!");
-                }
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (isExamActive && (e.ctrlKey && e.shiftKey && (e.key === 'S' || e.key === 'I')) || (e.key === 'F12')) {
-                    e.preventDefault();
-                    triggerWarning("Developer Tools / Shortcut blocked!");
-                }
-            });
-        }
-
-        function triggerWarning(reason) {
-            warnings++;
-            document.getElementById('warnCount').innerText = warnings;
-
-            if (warnings >= 3) {
-                applyPunishment();
-            } else {
-                showModal("Security Warning", `${reason} Warning ${warnings}/3. Repeating this will lock your exam for 1 minute.`);
-            }
-        }
-
-        function applyPunishment() {
-            isLocked = true;
-            let timeLeft = 60;
-            const timerDisplay = document.getElementById('punishmentTimer');
-            timerDisplay.classList.remove('hidden');
-            document.getElementById('modalCloseBtn').classList.add('hidden');
-
-            showModal("Exam Paused!", "Maximum violations reached! Exam is suspended for 60 seconds as a penalty.");
-
-            lockTimerInterval = setInterval(() => {
-                timeLeft--;
-                timerDisplay.innerText = `00:${timeLeft.toString().padStart(2, '0')}`;
-                if (timeLeft <= 0) {
-                    clearInterval(lockTimerInterval);
-                    isLocked = false;
-                    timerDisplay.classList.add('hidden');
-                    document.getElementById('modalCloseBtn').classList.remove('hidden');
-                    closeWarningModal();
-                    enterFullscreen();
-                }
-            }, 1000);
-        }
-
-        function showModal(title, msg) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalMsg').innerText = msg;
-            document.getElementById('warningModal').classList.remove('hidden');
-        }
-
-        function closeWarningModal() {
-            if (!isLocked) {
-                document.getElementById('warningModal').classList.add('hidden');
-                enterFullscreen();
-            }
-        }
-
-        function confirmSubmission() {
-            if (confirm("Are you sure you want to submit your exam?")) {
-                submitExam();
-            }
-        }
-
-        function submitExam() {
-            isExamActive = false;
-            exitFullscreen();
-
-            // Calculate Marks
-            let score = 0;
-            questions.forEach((q, idx) => {
-                if (userAnswers[idx] === q.answer) {
-                    score++;
-                }
-            });
-
-            let totalQ = questions.length;
-            let percentage = Math.round((score / totalQ) * 100);
-
-            // Prepare Payload
-            const payload = {
-                student: currentStudent,
-                score: score,
-                total: totalQ,
-                percentage: percentage,
-                violations: warnings
-            };
-
-            // Post Data to Google Sheet
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                showResults(score, totalQ, percentage);
-            }).catch(() => {
-                showResults(score, totalQ, percentage);
-            });
-        }
-
-        function showResults(score, total, percentage) {
-            document.getElementById('examSection').classList.add('hidden');
-            document.getElementById('resultSection').classList.remove('hidden');
-
-            document.getElementById('scoreMarks').innerText = score;
-            document.getElementById('scoreTotal').innerText = total;
-            document.getElementById('scorePercentage').innerText = percentage + '%';
-            document.getElementById('finalViolations').innerText = warnings;
-
-            if (percentage >= 50) {
-                document.getElementById('certificateBox').classList.remove('hidden');
-            }
-        }
+        window.addEventListener('DOMContentLoaded', loadComponents);
     </script>
 </body>
 </html>
